@@ -1,0 +1,16 @@
+{
+  "name": "fp-minify",
+  "version": "0.0.0",
+  "description": "Minify extension for Fepper",
+  "dependencies": {
+    "gulp-uglify": "^1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electric-eloquence/fp-minify.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}
