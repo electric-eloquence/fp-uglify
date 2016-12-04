@@ -2,6 +2,7 @@
 
 const srcDir = global.conf.ui.paths.source;
 
+const fs = require('fs-extra');
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 
