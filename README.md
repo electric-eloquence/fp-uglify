@@ -1,9 +1,9 @@
-# Minify extension for Fepper
+# Uglify extension for Fepper client-side JavaScript
 
 ### Install
-Add these tasks to `extend/contrib.js`:
+Add these tasks to `extend/contrib.js`
 
 * Under gulp task 'contrib:static'
-  * 'minify'
+  * 'uglify'
 * Under gulp task 'contrib:syncback'
-  * 'minify'
+  * 'uglify'
