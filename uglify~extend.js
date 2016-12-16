@@ -1,21 +1,20 @@
 'use strict';
 
-const srcDir = global.conf.ui.paths.source;
-
+const conf = global.conf;
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
+const rename = require('gulp-rename');
 
-const utilsGulp = require('../../../gulp/utils');
+const appDir = global.appDir;
+const utils = require(`${appDir}/core/lib/utils`);
 
-const bldDir = utilsGulp.pathResolve(srcDir.js) + '/bld';
-if (!fs.existsSync(bldDir)) {
-  fs.mkdirSync(bldDir);
-}
+const jsBldDir = utils.pathResolve(conf.ui.paths.source.jsBld);
+const jsSrcDir = utils.pathResolve(conf.ui.paths.source.jsSrc);
 
 gulp.task('uglify', function () {
-  return gulp.src(utilsGulp.pathResolve(srcDir.js) + '/src/**/*.js')
+  return gulp.src(jsSrcDir + '/**/*.js')
     .pipe(plugins.uglify())
-    .pipe(plugins.rename({extname: '.min.js'}))
-    .pipe(gulp.dest(bldDir));
+    .pipe(rename({extname: '.min.js'}))
+    .pipe(gulp.dest(jsBldDir));
 });
