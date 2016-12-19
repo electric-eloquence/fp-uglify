@@ -1,6 +1,6 @@
 {
   "name": "fp-uglify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Uglify extension for Fepper client-side JavaScript",
   "main": "uglify~extend.js",
   "repository": {
