@@ -1,12 +1,13 @@
 'use strict';
 
-const conf = global.conf;
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 const rename = require('gulp-rename');
 
+const conf = global.conf;
 const appDir = global.appDir;
+
 const utils = require(`${appDir}/core/lib/utils`);
 
 const jsBldDir = utils.pathResolve(conf.ui.paths.source.jsBld);
