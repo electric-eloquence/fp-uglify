@@ -5,8 +5,8 @@ const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
 const rename = require('gulp-rename');
 
-const conf = global.conf;
 const appDir = global.appDir;
+const conf = global.conf;
 
 const utils = require(`${appDir}/core/lib/utils`);
 
