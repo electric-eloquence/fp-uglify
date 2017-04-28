@@ -13,5 +13,25 @@
   },
   "dependencies": {
     "gulp-uglify": "^1.2.0"
-  }
+  },
+  "keywords": [
+    "atomic",
+    "component",
+    "design",
+    "end",
+    "fepper",
+    "front",
+    "front-end",
+    "frontend",
+    "lab",
+    "library",
+    "minification",
+    "minify",
+    "pattern",
+    "prototype",
+    "prototyper",
+    "prototyping",
+    "template",
+    "uglify"
+  ]
 }
