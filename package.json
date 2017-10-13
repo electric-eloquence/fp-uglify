@@ -7,13 +7,6 @@
     "type": "git",
     "url": "git+https://github.com/electric-eloquence/fp-uglify.git"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=8.5.0"
-  },
-  "dependencies": {
-    "gulp-uglify": "^1.2.0"
-  },
   "keywords": [
     "atomic",
     "component",
@@ -33,5 +26,12 @@
     "prototyping",
     "template",
     "uglify"
-  ]
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.5.0"
+  },
+  "dependencies": {
+    "gulp-uglify": "^1.2.0"
+  }
 }
