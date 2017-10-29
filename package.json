@@ -28,6 +28,10 @@
     "uglify"
   ],
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/electric-eloquence/fp-uglify/issues"
+  },
+  "homepage": "https://github.com/electric-eloquence/fp-uglify#readme",
   "engines": {
     "node": ">=8.5.0"
   },
