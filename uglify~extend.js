@@ -8,10 +8,8 @@ const rename = require('gulp-rename');
 const appDir = global.appDir;
 const conf = global.conf;
 
-const utils = require(`${appDir}/core/lib/utils`);
-
-const jsBldDir = utils.pathResolve(conf.ui.paths.source.jsBld);
-const jsSrcDir = utils.pathResolve(conf.ui.paths.source.jsSrc);
+const jsBldDir = conf.ui.paths.source.jsBld;
+const jsSrcDir = conf.ui.paths.source.jsSrc;
 
 gulp.task('uglify', function () {
   return gulp.src(jsSrcDir + '/**/*.js')
