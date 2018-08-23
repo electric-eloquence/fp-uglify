@@ -8,3 +8,6 @@ Add these tasks to `extend/contrib.js`
   * 'uglify'
 * Under gulp task 'contrib:syncback'
   * 'uglify'
+
+Running the `uglify` task will write the compressed JS to the `paths.source.jsBld` 
+directory as defined in `patternlab-config.json`.
