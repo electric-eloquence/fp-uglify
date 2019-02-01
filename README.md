@@ -10,13 +10,13 @@
 
 Add these tasks to `extend/contrib.js`
 
+* Under gulp task 'contrib:frontend-copy'
+  * 'uglify'
 * Under gulp task 'contrib:static'
   * 'uglify'
-* Under gulp task 'contrib:syncback'
-  * 'uglify'
 
-Running the `uglify` task will write the compressed JS to the 
-`paths.source.jsBld` directory as defined in `patternlab-config.json`.
+Running the `uglify` task will write the minified JavaScript to the 
+`paths.source.jsBld` directory as declared in `patternlab-config.json`.
 
 [snyk-image]: https://snyk.io/test/github/electric-eloquence/fp-uglify/master/badge.svg
 [snyk-url]: https://snyk.io/test/github/electric-eloquence/fp-uglify/master
