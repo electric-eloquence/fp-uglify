@@ -82,7 +82,7 @@ describe('fp-uglify', function () {
       sourcemapExistsBefore = fs.existsSync(sourcemap);
     });
 
-    it('should write the sourcemap inline if configured to so', function (done) {
+    it('should write a sourcemap inline if configured to so', function (done) {
       pref.uglify = {
         sourceMap: {
           url: 'inline'
