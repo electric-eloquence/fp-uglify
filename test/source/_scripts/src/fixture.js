@@ -1,11 +1,4 @@
-(function () {
-  'use strict';
-
-  var descriptiveVarForString = 'Hello world!';
-
-  function descriptiveVarForFunction(descriptiveVarForArgument) {
-    global.result = descriptiveVarForArgument;
-  }
-
-  descriptiveVarForFunction(descriptiveVarForString);
-})();
+var root = (typeof global === 'object') ? global : window;
+var descriptiveVarForString = 'fixture.js.map';
+root.sourcemaps = root.sourcemaps || {};
+root.sourcemaps['fixture.min.js'] = descriptiveVarForString;

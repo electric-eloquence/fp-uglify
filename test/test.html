@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="source/_scripts/bld/fixture.min.js"></script>
+    <script src="source/_scripts/bld/fixture-sourcemap-inline.min.js"></script>
+  </head>
+  <body>
+    <h1>Sourcemaps</h1>
+    <main
+      id="main"
+      style="font-family: Monaco, 'Lucida Console', 'DejaVu Sans Mono', 'Roboto Mono', monospace; font-size: 13px;">
+    </main>
+    <script>
+      let output = '';
+      for (let key of Object.keys(window.sourcemaps)) {
+        output += `<div>${key} -> ${window.sourcemaps[key]}</div>`;
+      }
+      document.getElementById('main').innerHTML = output;
+    </script>
+  </body>
+</html>

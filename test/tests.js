@@ -1,50 +1,153 @@
 'use strict';
 
-const fs = require('fs');
-const join = require('path').join;
+const fs = require('fs-extra');
+const path = require('path');
 
 const expect = require('chai').expect;
 
-// Instantiate a gulp instance and assign it to the fp const.
+// Instantiate gulp and assign it to the fp const.
 process.env.ROOT_DIR = __dirname;
 const fp = require('fepper/tasker');
 require('../uglify~extend');
 
+const conf = global.conf;
+const pref = global.pref;
+
+const srcJsBldDir = conf.ui.paths.source.jsBld;
+
 const enc = 'utf8';
 
 describe('fp-uglify', function () {
-  const fixtureMin = join(__dirname, 'source/_scripts/bld/fixture.min.js');
+  const fixtureMin = path.join(srcJsBldDir, 'fixture.min.js');
   let fixtureMinExistsBefore;
 
-  before(function (done) {
+  before(function () {
     if (fs.existsSync(fixtureMin)) {
       fs.unlinkSync(fixtureMin);
     }
 
     fixtureMinExistsBefore = fs.existsSync(fixtureMin);
+  });
 
+  it('should minify source javascript', function (done) {
     fp.runSequence(
       'uglify',
-      done
+      () => {
+        const minified = fs.readFileSync(fixtureMin, enc);
+
+        require(fixtureMin);
+
+        expect(fixtureMinExistsBefore).to.equal(false);
+        expect(minified).to.contain(
+          'var root="object"==typeof global?global:window,descriptiveVarForString="fixture.js.map";root.sourcemaps=root.sourcemaps||{},root.sourcemaps["fixture.min.js"]=descriptiveVarForString;'
+        );
+        expect(global.sourcemaps['fixture.min.js']).to.equal('fixture.js.map');
+
+        done();
+      }
     );
   });
 
-  after(function () {
-    if (fs.existsSync(fixtureMin)) {
-      fs.unlinkSync(fixtureMin);
-    }
+  it('should accept custom options', function (done) {
+    pref.uglify = {
+      mangle: {
+        toplevel: true
+      }
+    };
+
+
+    fp.runSequence(
+      'uglify',
+      () => {
+        const minified = fs.readFileSync(fixtureMin, enc);
+
+        expect(minified).to.contain(
+          'var o="object"==typeof global?global:window,s="fixture.js.map";o.sourcemaps=o.sourcemaps||{},o.sourcemaps["fixture.min.js"]=s;'
+        );
+
+        done();
+      }
+    );
   });
 
-  it('should minify source javascript', function () {
-    const minified = fs.readFileSync(fixtureMin, enc);
+  describe('sourcemapping', function () {
+    const sourcemap = path.join(srcJsBldDir, 'fixture.js.map');
+    let sourcemapExistsBefore;
 
-    expect(fixtureMinExistsBefore).to.equal(false);
-    expect(minified).to.equal('!function(){"use strict";var l;l="Hello world!",global.result=l}();');
-  });
+    before(function () {
+      if (fs.existsSync(sourcemap)) {
+        fs.unlinkSync(sourcemap);
+      }
 
-  it('should write minified javascript that executes correctly', function () {
-    require(fixtureMin);
+      sourcemapExistsBefore = fs.existsSync(sourcemap);
+    });
 
-    expect(global.result).to.equal('Hello world!');
+    it('should write the sourcemap inline if configured to so', function (done) {
+      pref.uglify = {
+        sourceMap: {
+          url: 'inline'
+        }
+      };
+
+      fp.runSequence(
+        'uglify',
+        () => {
+          const sourcemapExistsAfter = fs.existsSync(sourcemap);
+          const sourcemapInline = fs.readFileSync(fixtureMin, enc);
+
+          expect(sourcemapExistsBefore).to.equal(false);
+          expect(sourcemapExistsAfter).to.equal(false);
+          expect(sourcemapInline).to.contain('//# sourceMappingURL=data:application/json;');
+
+          done();
+        }
+      );
+    });
+
+    it('should write a sourcemap file if configured to do so', function (done) {
+      pref.uglify = {
+        sourceMap: true
+      };
+
+      fp.runSequence(
+        'uglify',
+        () => {
+          const sourcemapExistsAfter = fs.existsSync(sourcemap);
+          const sourcemapJson = fs.readJsonSync(sourcemap);
+
+          expect(sourcemapExistsBefore).to.equal(false);
+          expect(sourcemapExistsAfter).to.equal(true);
+          expect(sourcemapJson).to.have.property('version');
+          expect(sourcemapJson).to.have.property('sources');
+          expect(sourcemapJson).to.have.property('names');
+          expect(sourcemapJson).to.have.property('mappings');
+          expect(sourcemapJson).to.have.property('file');
+
+          done();
+        }
+      );
+    });
+
+    it('should write a sourcemap file with a custom sourceRoot if configured to so', function (done) {
+      pref.uglify = {
+        sourceMap: {
+          root: '/foo/bar'
+        }
+      };
+
+      fp.runSequence(
+        'uglify',
+        () => {
+          const sourcemapExistsAfter = fs.existsSync(sourcemap);
+          const sourcemapJson = fs.readJsonSync(sourcemap);
+
+          expect(sourcemapExistsBefore).to.equal(false);
+          expect(sourcemapExistsAfter).to.equal(true);
+          expect(sourcemapJson.sourceRoot).to.equal(pref.uglify.sourceMap.root);
+
+          done();
+        }
+      );
+    });
   });
 });
