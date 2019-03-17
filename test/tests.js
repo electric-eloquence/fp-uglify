@@ -37,7 +37,7 @@ describe('fp-uglify', function () {
 
         require(fixtureMin);
 
-        expect(fixtureMinExistsBefore).to.equal(false);
+        expect(fixtureMinExistsBefore).to.be.false;
         expect(minified).to.contain(
           'var root="object"==typeof global?global:window,descriptiveVarForString="fixture.js.map";root.sourcemaps=root.sourcemaps||{},root.sourcemaps["fixture.min.js"]=descriptiveVarForString;'
         );
@@ -95,8 +95,8 @@ describe('fp-uglify', function () {
           const sourcemapExistsAfter = fs.existsSync(sourcemap);
           const sourcemapInline = fs.readFileSync(fixtureMin, enc);
 
-          expect(sourcemapExistsBefore).to.equal(false);
-          expect(sourcemapExistsAfter).to.equal(false);
+          expect(sourcemapExistsBefore).to.be.false;
+          expect(sourcemapExistsAfter).to.be.false;
           expect(sourcemapInline).to.contain('//# sourceMappingURL=data:application/json;');
 
           done();
@@ -115,8 +115,8 @@ describe('fp-uglify', function () {
           const sourcemapExistsAfter = fs.existsSync(sourcemap);
           const sourcemapJson = fs.readJsonSync(sourcemap);
 
-          expect(sourcemapExistsBefore).to.equal(false);
-          expect(sourcemapExistsAfter).to.equal(true);
+          expect(sourcemapExistsBefore).to.be.false;
+          expect(sourcemapExistsAfter).to.be.true;
           expect(sourcemapJson).to.have.property('version');
           expect(sourcemapJson).to.have.property('sources');
           expect(sourcemapJson).to.have.property('names');
@@ -141,8 +141,8 @@ describe('fp-uglify', function () {
           const sourcemapExistsAfter = fs.existsSync(sourcemap);
           const sourcemapJson = fs.readJsonSync(sourcemap);
 
-          expect(sourcemapExistsBefore).to.equal(false);
-          expect(sourcemapExistsAfter).to.equal(true);
+          expect(sourcemapExistsBefore).to.be.false;
+          expect(sourcemapExistsAfter).to.be.true;
           expect(sourcemapJson.sourceRoot).to.equal(pref.uglify.sourceMap.root);
 
           done();
