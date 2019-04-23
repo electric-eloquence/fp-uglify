@@ -2,7 +2,7 @@
 
 const {Transform} = require('stream');
 
-const gulp = require('gulp');
+const gulp = global.gulp || require('gulp');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
