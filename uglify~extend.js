@@ -82,7 +82,8 @@ Use:
     <task> [<additional args>...]
 
 Tasks:
-    fp uglify   Minify Fepper's frontend JavaScript files.
+    fp uglify       Minify Fepper's frontend JavaScript files.
+    fp uglify:help  Print fp-uglify tasks and descriptions.
 `;
 
   utils.info(out);
