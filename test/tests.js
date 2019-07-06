@@ -150,4 +150,13 @@ describe('fp-uglify', function () {
       );
     });
   });
+
+  describe('help text', function () {
+    it('should print help text', function (done) {
+      fp.runSeq(
+        'uglify:help',
+        done
+      );
+    });
+  });
 });
