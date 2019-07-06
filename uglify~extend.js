@@ -6,6 +6,7 @@ const gulp = global.gulp || require('gulp');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
+const utils = require('fepper-utils');
 
 const conf = global.conf;
 const pref = global.pref;
@@ -71,4 +72,19 @@ gulp.task('uglify', function () {
       }
     }))
     .pipe(gulp.dest(jsBldDir));
+});
+
+gulp.task('uglify:help', function (cb) {
+  let out = `
+Fepper Uglify Extension
+
+Use:
+    <task> [<additional args>...]
+
+Tasks:
+    fp uglify   Minify Fepper's frontend JavaScript files.
+`;
+
+  utils.info(out);
+  cb();
 });
