@@ -29,129 +29,131 @@ describe('fp-uglify', function () {
     fixtureMinExistsBefore = fs.existsSync(fixtureMin);
   });
 
-  it('should minify source javascript', function (done) {
-    fp.runSequence(
-      'uglify',
-      () => {
-        const minified = fs.readFileSync(fixtureMin, enc);
+  describe('fp uglify', function () {
+    it('should minify source javascript', function (done) {
+      fp.runSequence(
+        'uglify',
+        () => {
+          const minified = fs.readFileSync(fixtureMin, enc);
 
-        require(fixtureMin);
+          require(fixtureMin);
 
-        expect(fixtureMinExistsBefore).to.be.false;
-        expect(minified).to.contain(
-          'var root="object"==typeof global?global:window,descriptiveVarForString="fixture.js.map";root.sourcemaps=root.sourcemaps||{},root.sourcemaps["fixture.min.js"]=descriptiveVarForString;'
+          expect(fixtureMinExistsBefore).to.be.false;
+          expect(minified).to.contain(
+            'var root="object"==typeof global?global:window,descriptiveVarForString="fixture.js.map";root.sourcemaps=root.sourcemaps||{},root.sourcemaps["fixture.min.js"]=descriptiveVarForString;'
+          );
+          expect(global.sourcemaps['fixture.min.js']).to.equal('fixture.js.map');
+
+          done();
+        }
+      );
+    });
+
+    it('should accept custom options', function (done) {
+      pref.uglify = {
+        mangle: {
+          toplevel: true
+        }
+      };
+
+
+      fp.runSequence(
+        'uglify',
+        () => {
+          const minified = fs.readFileSync(fixtureMin, enc);
+
+          expect(minified).to.contain(
+            'var o="object"==typeof global?global:window,s="fixture.js.map";o.sourcemaps=o.sourcemaps||{},o.sourcemaps["fixture.min.js"]=s;'
+          );
+
+          done();
+        }
+      );
+    });
+
+    describe('sourcemapping', function () {
+      const sourcemap = path.join(srcJsBldDir, 'fixture.js.map');
+      let sourcemapExistsBefore;
+
+      before(function () {
+        if (fs.existsSync(sourcemap)) {
+          fs.unlinkSync(sourcemap);
+        }
+
+        sourcemapExistsBefore = fs.existsSync(sourcemap);
+      });
+
+      it('should write a sourcemap inline if configured to so', function (done) {
+        pref.uglify = {
+          sourceMap: {
+            url: 'inline'
+          }
+        };
+
+        fp.runSequence(
+          'uglify',
+          () => {
+            const sourcemapExistsAfter = fs.existsSync(sourcemap);
+            const sourcemapInline = fs.readFileSync(fixtureMin, enc);
+
+            expect(sourcemapExistsBefore).to.be.false;
+            expect(sourcemapExistsAfter).to.be.false;
+            expect(sourcemapInline).to.contain('//# sourceMappingURL=data:application/json;');
+
+            done();
+          }
         );
-        expect(global.sourcemaps['fixture.min.js']).to.equal('fixture.js.map');
+      });
 
-        done();
-      }
-    );
-  });
+      it('should write a sourcemap file if configured to do so', function (done) {
+        pref.uglify = {
+          sourceMap: true
+        };
 
-  it('should accept custom options', function (done) {
-    pref.uglify = {
-      mangle: {
-        toplevel: true
-      }
-    };
+        fp.runSequence(
+          'uglify',
+          () => {
+            const sourcemapExistsAfter = fs.existsSync(sourcemap);
+            const sourcemapJson = fs.readJsonSync(sourcemap);
 
+            expect(sourcemapExistsBefore).to.be.false;
+            expect(sourcemapExistsAfter).to.be.true;
+            expect(sourcemapJson).to.have.property('version');
+            expect(sourcemapJson).to.have.property('sources');
+            expect(sourcemapJson).to.have.property('names');
+            expect(sourcemapJson).to.have.property('mappings');
+            expect(sourcemapJson).to.have.property('file');
 
-    fp.runSequence(
-      'uglify',
-      () => {
-        const minified = fs.readFileSync(fixtureMin, enc);
-
-        expect(minified).to.contain(
-          'var o="object"==typeof global?global:window,s="fixture.js.map";o.sourcemaps=o.sourcemaps||{},o.sourcemaps["fixture.min.js"]=s;'
+            done();
+          }
         );
+      });
 
-        done();
-      }
-    );
-  });
+      it('should write a sourcemap file with a custom sourceRoot if configured to so', function (done) {
+        pref.uglify = {
+          sourceMap: {
+            root: '/foo/bar'
+          }
+        };
 
-  describe('sourcemapping', function () {
-    const sourcemap = path.join(srcJsBldDir, 'fixture.js.map');
-    let sourcemapExistsBefore;
+        fp.runSequence(
+          'uglify',
+          () => {
+            const sourcemapExistsAfter = fs.existsSync(sourcemap);
+            const sourcemapJson = fs.readJsonSync(sourcemap);
 
-    before(function () {
-      if (fs.existsSync(sourcemap)) {
-        fs.unlinkSync(sourcemap);
-      }
+            expect(sourcemapExistsBefore).to.be.false;
+            expect(sourcemapExistsAfter).to.be.true;
+            expect(sourcemapJson.sourceRoot).to.equal(pref.uglify.sourceMap.root);
 
-      sourcemapExistsBefore = fs.existsSync(sourcemap);
-    });
-
-    it('should write a sourcemap inline if configured to so', function (done) {
-      pref.uglify = {
-        sourceMap: {
-          url: 'inline'
-        }
-      };
-
-      fp.runSequence(
-        'uglify',
-        () => {
-          const sourcemapExistsAfter = fs.existsSync(sourcemap);
-          const sourcemapInline = fs.readFileSync(fixtureMin, enc);
-
-          expect(sourcemapExistsBefore).to.be.false;
-          expect(sourcemapExistsAfter).to.be.false;
-          expect(sourcemapInline).to.contain('//# sourceMappingURL=data:application/json;');
-
-          done();
-        }
-      );
-    });
-
-    it('should write a sourcemap file if configured to do so', function (done) {
-      pref.uglify = {
-        sourceMap: true
-      };
-
-      fp.runSequence(
-        'uglify',
-        () => {
-          const sourcemapExistsAfter = fs.existsSync(sourcemap);
-          const sourcemapJson = fs.readJsonSync(sourcemap);
-
-          expect(sourcemapExistsBefore).to.be.false;
-          expect(sourcemapExistsAfter).to.be.true;
-          expect(sourcemapJson).to.have.property('version');
-          expect(sourcemapJson).to.have.property('sources');
-          expect(sourcemapJson).to.have.property('names');
-          expect(sourcemapJson).to.have.property('mappings');
-          expect(sourcemapJson).to.have.property('file');
-
-          done();
-        }
-      );
-    });
-
-    it('should write a sourcemap file with a custom sourceRoot if configured to so', function (done) {
-      pref.uglify = {
-        sourceMap: {
-          root: '/foo/bar'
-        }
-      };
-
-      fp.runSequence(
-        'uglify',
-        () => {
-          const sourcemapExistsAfter = fs.existsSync(sourcemap);
-          const sourcemapJson = fs.readJsonSync(sourcemap);
-
-          expect(sourcemapExistsBefore).to.be.false;
-          expect(sourcemapExistsAfter).to.be.true;
-          expect(sourcemapJson.sourceRoot).to.equal(pref.uglify.sourceMap.root);
-
-          done();
-        }
-      );
+            done();
+          }
+        );
+      });
     });
   });
 
-  describe('help text', function () {
+  describe('fp uglify:help', function () {
     it('should print help text', function (done) {
       fp.runSeq(
         'uglify:help',
