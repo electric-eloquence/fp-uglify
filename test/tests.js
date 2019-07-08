@@ -31,7 +31,7 @@ describe('fp-uglify', function () {
 
   describe('fp uglify', function () {
     it('should minify source javascript', function (done) {
-      fp.runSequence(
+      fp.runSeq(
         'uglify',
         () => {
           const minified = fs.readFileSync(fixtureMin, enc);
@@ -57,7 +57,7 @@ describe('fp-uglify', function () {
       };
 
 
-      fp.runSequence(
+      fp.runSeq(
         'uglify',
         () => {
           const minified = fs.readFileSync(fixtureMin, enc);
@@ -90,7 +90,7 @@ describe('fp-uglify', function () {
           }
         };
 
-        fp.runSequence(
+        fp.runSeq(
           'uglify',
           () => {
             const sourcemapExistsAfter = fs.existsSync(sourcemap);
@@ -110,7 +110,7 @@ describe('fp-uglify', function () {
           sourceMap: true
         };
 
-        fp.runSequence(
+        fp.runSeq(
           'uglify',
           () => {
             const sourcemapExistsAfter = fs.existsSync(sourcemap);
@@ -136,7 +136,7 @@ describe('fp-uglify', function () {
           }
         };
 
-        fp.runSequence(
+        fp.runSeq(
           'uglify',
           () => {
             const sourcemapExistsAfter = fs.existsSync(sourcemap);
