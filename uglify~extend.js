@@ -11,11 +11,20 @@ const utils = require('fepper-utils');
 const conf = global.conf;
 const pref = global.pref;
 
+// Set up pref.uglify.
+pref.uglify = pref.uglify || {};
+
 const jsBldDir = conf.ui.paths.source.jsBld;
 const jsSrcDir = conf.ui.paths.source.jsSrc;
 
-// Set up pref.uglify.
-pref.uglify = pref.uglify || {};
+const streamUntouched = () => new Transform({
+  readableObjectMode: true,
+  writableObjectMode: true,
+  transform(file, enc, cb) {
+    this.push(file);
+    cb();
+  }
+});
 
 function getSourcemapDest() {
   if (pref.uglify.sourceMap && pref.uglify.sourceMap.url !== 'inline') {
@@ -33,17 +42,6 @@ function getSourceRoot() {
   }
 
   return;
-}
-
-function streamUntouched() {
-  return new Transform({
-    readableObjectMode: true,
-    writableObjectMode: true,
-    transform(file, enc, cb) {
-      this.push(file);
-      cb();
-    }
-  });
 }
 
 // Declare gulp tasks.
