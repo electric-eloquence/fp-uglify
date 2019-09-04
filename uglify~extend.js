@@ -50,7 +50,7 @@ gulp.task('uglify', function () {
   let sourcemapsInit = sourcemaps.init;
   let sourcemapsWrite = sourcemaps.write;
 
-  // Do not write sourcemaps if pref.uglify.sourceMap is falsey.
+  // Do not write sourcemaps if pref.uglify.sourceMap is falsy.
   if (!pref.uglify.sourceMap) {
     sourcemapsInit = () => {
       return streamUntouched();
