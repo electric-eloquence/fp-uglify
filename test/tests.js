@@ -30,7 +30,7 @@ describe('fp-uglify', function () {
   });
 
   describe('fp uglify', function () {
-    it('should minify source javascript', function (done) {
+    it('minifies source javascript', function (done) {
       fp.runSeq(
         'uglify',
         () => {
@@ -49,7 +49,7 @@ describe('fp-uglify', function () {
       );
     });
 
-    it('should accept custom options', function (done) {
+    it('accepts custom options', function (done) {
       pref.uglify = {
         mangle: {
           toplevel: true
@@ -83,7 +83,7 @@ describe('fp-uglify', function () {
         sourcemapExistsBefore = fs.existsSync(sourcemap);
       });
 
-      it('should write a sourcemap inline if configured to so', function (done) {
+      it('writes a sourcemap inline if configured to so', function (done) {
         pref.uglify = {
           sourceMap: {
             url: 'inline'
@@ -105,7 +105,7 @@ describe('fp-uglify', function () {
         );
       });
 
-      it('should write a sourcemap file if configured to do so', function (done) {
+      it('writes a sourcemap file if configured to do so', function (done) {
         pref.uglify = {
           sourceMap: true
         };
@@ -129,7 +129,7 @@ describe('fp-uglify', function () {
         );
       });
 
-      it('should write a sourcemap file with a custom sourceRoot if configured to so', function (done) {
+      it('writes a sourcemap file with a custom sourceRoot if configured to so', function (done) {
         pref.uglify = {
           sourceMap: {
             root: '/foo/bar'
@@ -154,7 +154,7 @@ describe('fp-uglify', function () {
   });
 
   describe('fp uglify:help', function () {
-    it('should print help text', function (done) {
+    it('prints help text', function (done) {
       fp.runSeq(
         'uglify:help',
         done
