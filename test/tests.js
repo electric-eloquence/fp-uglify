@@ -39,7 +39,7 @@ describe('fp-uglify', function () {
           require(fixtureMin);
 
           expect(fixtureMinExistsBefore).to.be.false;
-          expect(minified).to.contain(
+          expect(minified).to.have.string(
             'var root="object"==typeof global?global:window,descriptiveVarForString="fixture.js.map";root.sourcemaps=root.sourcemaps||{},root.sourcemaps["fixture.min.js"]=descriptiveVarForString;'
           );
           expect(global.sourcemaps['fixture.min.js']).to.equal('fixture.js.map');
@@ -62,7 +62,7 @@ describe('fp-uglify', function () {
         () => {
           const minified = fs.readFileSync(fixtureMin, enc);
 
-          expect(minified).to.contain(
+          expect(minified).to.have.string(
             'var o="object"==typeof global?global:window,s="fixture.js.map";o.sourcemaps=o.sourcemaps||{},o.sourcemaps["fixture.min.js"]=s;'
           );
 
@@ -98,7 +98,7 @@ describe('fp-uglify', function () {
 
             expect(sourcemapExistsBefore).to.be.false;
             expect(sourcemapExistsAfter).to.be.false;
-            expect(sourcemapInline).to.contain('//# sourceMappingURL=data:application/json;');
+            expect(sourcemapInline).to.have.string('//# sourceMappingURL=data:application/json;');
 
             done();
           }
