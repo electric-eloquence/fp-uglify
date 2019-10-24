@@ -65,10 +65,10 @@ uglify:
 [snyk-image]: https://snyk.io/test/github/electric-eloquence/fp-uglify/master/badge.svg
 [snyk-url]: https://snyk.io/test/github/electric-eloquence/fp-uglify/master
 
-[travis-image]: https://img.shields.io/travis/electric-eloquence/fp-uglify.svg?label=mac%20%26%20linux
+[travis-image]: https://img.shields.io/travis/electric-eloquence/fp-uglify/master.svg?label=mac%20%26%20linux
 [travis-url]: https://travis-ci.org/electric-eloquence/fp-uglify
 
-[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fp-uglify.svg?label=windows
+[appveyor-image]: https://img.shields.io/appveyor/ci/e2tha-e/fp-uglify/master.svg?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/e2tha-e/fp-uglify
 
 [coveralls-image]: https://img.shields.io/coveralls/electric-eloquence/fp-uglify/master.svg
