@@ -12,7 +12,7 @@
     </main>
     <script>
       let output = '';
-      for (let key of Object.keys(window.sourcemaps)) {
+      for (const key of Object.keys(window.sourcemaps)) {
         output += `<div>${key} -> ${window.sourcemaps[key]}</div>`;
       }
       document.getElementById('main').innerHTML = output;
